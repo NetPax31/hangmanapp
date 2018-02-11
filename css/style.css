@@ -1,0 +1,231 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+ v2.0 | 20110126
+ License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+margin: 0;
+padding: 0;
+border: 0;
+font-size: 100%;
+font: inherit;
+vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+display: block;
+}
+body {
+line-height: 1;
+}
+ol, ul {
+list-style: none;
+}
+blockquote, q {
+quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+content: '';
+content: none;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+
+/* ---------------------*/
+
+html, body {
+  height: 100%;
+}
+body {
+  background: #ceb78a;
+}
+#root, .app {
+  height: 100%;
+}
+p {
+  font-family: 'Roboto', sans-serif;
+}
+h1, h2, h3, h4, h5, h6, span {
+  font-family: 'Roboto Slab', serif;
+}
+hr {
+  border: 0;
+  border-top: 1px solid rgba(83,53,37,.1);
+}
+.app {
+  margin: 0 auto;
+  max-width: 992px;
+  position: relative;
+  width: 90%;
+}
+.header {
+  padding-top: 64px;
+  text-align: center;
+}
+.header__cta {
+  cursor: pointer;
+  font-size: 64px;
+}
+.header__slogan {
+  border-top: 4px;
+  border-bottom: 4px;
+  border-style: double;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 8px 0;
+  padding: 2px 0;
+}
+.riddle {
+  border-bottom: 2px solid #533525;
+  border-top: 2px solid #533525;
+  margin: 4px 0;
+  min-height: 76px;
+  padding: 8px;
+  text-align: center;
+}
+.riddle__letter {
+  border-bottom: 4px solid #533525;
+  border-radius: 8px;
+  display: inline-block;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 64px;
+  margin: 4px;
+  height: 64px;
+  width: 64px;
+}
+.alphabet {
+  margin: 0 auto;
+  max-width: 400px;
+  position: relative;
+  text-align: center;
+}
+.alphabet__letter {
+  background: #533525;
+  border-radius: 8px;
+  color: #ceb78a;
+  cursor: pointer;
+  display: inline-block;
+  height: 32px;
+  line-height: 32px;
+  margin: 4px;
+  -webkit-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  width: 32px;
+}
+.alphabet__letter:hover {
+  background: #40291c;
+  -webkit-transform: scale(1.1);
+      -ms-transform: scale(1.1);
+          transform: scale(1.1);
+}
+.alphabet__letter--clicked,
+.alphabet__letter--clicked:hover,
+.alphabet__letter--clicked:focus,
+.alphabet__letter--clicked:visited {
+  background: #7f6a5f;
+}
+
+.info {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 31px 0;
+  text-align: center;
+}
+.author {
+  font-size: 12px;
+  font-weight: 700;
+}
+.detail,
+.detail:link,
+.detail:hover,
+.detail:focus,
+.detail:visited {
+  color: #934425;
+}
+.star {
+  font-size: 32px;
+  position: absolute;
+}
+.star--lt {
+  left: 0;
+  top: 32px;
+}
+.star--rt {
+  right: 0;
+  top: 32px;
+}
+.star--lb {
+  left: 0;
+  bottom: 32px;
+}
+.star--rb {
+  right: 0;
+  bottom: 32px;
+}
+
+/*** ANIMATIONS ***/
+.blinking {
+  -webkit-animation: blink 2s infinite;
+          animation: blink 2s infinite;
+}
+.bouncing {
+  -webkit-animation: bounce 1s ease-in-out infinite;
+          animation: bounce 1s ease-in-out infinite;
+}
+@-webkit-keyframes bounce {
+  0%{-webkit-transform: scale(1);transform: scale(1);}
+  50%{-webkit-transform: scale(1.1);transform: scale(1.1);}
+  100%{-webkit-transform: scale(1);transform: scale(1);}
+}
+@keyframes bounce {
+  0%{-webkit-transform: scale(1);transform: scale(1);}
+  50%{-webkit-transform: scale(1.1);transform: scale(1.1);}
+  100%{-webkit-transform: scale(1);transform: scale(1);}
+}
+@-webkit-keyframes blink {
+  0%{opacity: 0;}
+  20%{opacity: .25;}
+  40%{opacity: .50;}
+  60%{opacity: .75;}
+  80%{opacity: 1;}
+  100%{opacity: 0;}
+}
+@keyframes blink {
+  0%{opacity: 0;}
+  20%{opacity: .25;}
+  40%{opacity: .50;}
+  60%{opacity: .75;}
+  80%{opacity: 1;}
+  100%{opacity: 0;}
+}
+/*** RWD ***/
+@media (min-width: 768px) {
+  .alphabet {
+    max-width: 100%;
+  }
+  .alphabet__letter {
+    font-size: 24px;
+    height: 64px;
+    line-height: 64px;
+    width: 64px;
+  }
+}

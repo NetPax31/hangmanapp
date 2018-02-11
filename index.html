@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Hangman App</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto&amp;subset=latin-ext" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&amp;subset=latin-ext" rel="stylesheet">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <div id="root">
+  </div>
+
+  <script src="js/react.production.min.js"></script>
+  <script src="js/react-dom.production.min.js"></script>
+  <script src="js/babel.min.js"></script>
+
+  <script type="text/babel">
+
+  class App extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        alphabet: ["A", "Ą", "B", "C", "Ć", "D", "E", "Ę", "F", "G", "H", "I", "J", "K", "L", "Ł", "M", "N", "O", "Ó", "P", "Q", "R", "S", "Ś", "T", "U", "V", "W", "X", "Y", "Z", "Ź", "Ż"],
+        riddleLetters: [],
+        riddleFoundLetters: [],
+        isPlaying: false,
+        gameMessage: 'Naciśnij PLAY aby zagrać! Zgadnij nazwę europejskiego państwa!',
+        clickedLetters: [],
+        attemptsNumber: 10,
+        pts: 0
+      };
+    }
+
+    startGame() {
+      const riddleWords = ["MONAKO", "MALTA", "WATYKAN", "HOLANDIA", "BELGIA", "NIEMCY", "LIECHTENSTEIN", "WŁOCHY", "SZWAJCARIA", "ANDORA", "LUKSEMBURG", "CZECHY", "MOŁDAWIA", "DANIA", "POLSKA", "SŁOWACJA", "FRANCJA", "WĘGRY", "PORTUGALIA", "ALBANIA", "SERBIA", "SŁOWENIA", "AUSTRIA", "RUMUNIA", "TURCJA", "UKRAINA", "GRECJA", "MACEDONIA", "CHORWACJA", "HISZPANIA", "BUŁGARIA", "LITWA", "IRLANDIA", "CZARNOGÓRA", "BIAŁORUŚ", "ŁOTWA", "ESTONIA", "SZWECJA", "FINLANDIA", "NORWEGIA", "ROSJA", "KAZACHSTAN", "ISLANDIA"];
+      const randomNumber = Math.floor(Math.random() * riddleWords.length);
+      const riddleLettersArray = [...riddleWords[randomNumber]];
+
+      this.setState({
+        riddleLetters: riddleLettersArray,
+        riddleFoundLetters: [],
+        isPlaying: true,
+        clickedLetters: [],
+        attemptsNumber: 10
+      });
+    }
+
+    checkLetter(letter, event) {
+      if (this.state.isPlaying) {
+        if (this.state.clickedLetters.indexOf(letter, 0) < 0) {
+          if (this.state.riddleLetters.indexOf(letter, 0) > -1) {
+            this.setState(prevState => ({
+              riddleFoundLetters: [...prevState.riddleFoundLetters, letter],
+            }))
+          } else {
+            this.setState(prevState => ({
+              attemptsNumber: prevState.attemptsNumber-1,
+            }))
+          }
+        this.setState(prevState => ({
+          clickedLetters: [...prevState.clickedLetters, letter]
+        }))
+        }
+      }
+    }
+
+    componentDidUpdate() {
+      if (this.state.isPlaying) {
+        if (this.state.attemptsNumber > 0) {
+          var riddleLetters = [...new Set(this.state.riddleLetters)];
+          var riddleFoundLetters = [...new Set(this.state.riddleFoundLetters)];
+          if ((riddleLetters.length) === (riddleFoundLetters.length)) {
+            this.setState(prevState => ({
+              isPlaying: false,
+              gameMessage: 'Zgadłeś! Graj dalej!',
+              pts: prevState.pts+1
+            }))
+          }
+        } else {
+          this.setState({
+            isPlaying: false,
+            gameMessage: 'Przegrałeś! Spróbuj jescze raz!',
+            pts: 0
+          });
+        }
+      }
+    }
+
+    render() {
+      const isPlaying = this.state.isPlaying;
+      return (
+        <div className="app">
+          <span className="star star--lt detail"><i className="fa fa-star"></i></span>
+          <span className="star star--rt detail"><i className="fa fa-star"></i></span>
+          <span className="star star--lb detail"><i className="fa fa-star"></i></span>
+          <span className="star star--rb detail"><i className="fa fa-star"></i></span>
+          <div className="header">
+            <h2 className={isPlaying ? 'header__cta' : 'header__cta bouncing'} onClick={this.startGame.bind(this)}>PLAY</h2>
+            <h3 className="header__slogan"><span className="detail">DEAD</span>-OR-<span className="detail">ALIVE</span></h3>
+          </div>
+          <div className="riddle">
+          {
+            isPlaying ? (
+            this.state.riddleLetters.map(letter => {
+              if (this.state.riddleFoundLetters.indexOf(letter, 0) > -1) {
+                var showLetter = letter;
+              } else {
+                var showLetter = '•';
+              }
+              return (
+                <span className="riddle__letter">{showLetter}</span>
+              );
+            })
+          ) : (
+              <p className="info detail">{this.state.gameMessage}</p>
+          )
+          }
+          </div>
+          <div className="alphabet">
+          {
+            this.state.alphabet.map(letter => {
+              if (this.state.clickedLetters.indexOf(letter, 0) > -1) {
+                var letterClicked = 'alphabet__letter alphabet__letter--clicked';
+              } else {
+                var letterClicked = 'alphabet__letter';
+              }
+              return (
+                <span className={letterClicked} onClick={this.checkLetter.bind(this, letter)}>{letter}</span>
+              );
+            })
+          }
+          </div>
+          <p className="info detail">Pozostało prób: {this.state.attemptsNumber} | Punkty: {this.state.pts}</p>
+          <hr />
+          <p className="author detail">© Wojciech Stawarz <a href="http://inforeklama.com.pl/cv/" className="detail" title="Wojciech Stawarz - Front-end developer" target="_blank"><i className="fa fa-link"></i></a> <a href="https://www.linkedin.com/in/wojciech-stawarz/" className="detail" title="Wojciech Stawarz - linkedIn" target="_blank"><i className="fa fa-linkedin-square"></i></a></p>
+        </div>
+      );
+    }
+  }
+
+  ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
